@@ -1,0 +1,25 @@
+import itertools
+import networkx as nx 
+from itertools import product
+
+def is_hamiltonians_cycle(graph, cycle):              #Se define la funcion
+    n = len (set(cycle))                  # se usa SET para que los n se verla como conjuntos
+    if n != graph.order():                    # se hace un conjunto los vertices para que no se repitan
+        return False
+    for i in range(n-1):                          # se guarda los n vertices con un for, empezando i=o
+        if not graph.has_edge(cycle[i], cycle[i+1]):   # se usa por si un arista no es amigo de otro por lo tanto no termina el ciclo al inicio y al final
+            return False
+        if not graph. has_edge(cycle[n-1], cycle[0]):
+            return False
+        return True
+def is_hamiltonians(graph):      # se usa para conocer las permutaciones
+    if not nx.is_connected(graph):
+        return False
+    vertices = list(graph.nodes())
+    if len(vertices) < 3:      # los vertices son menor de 3 entonce no cumple que sea ciclo hamiltoniano, es decir debe de tener 3 para ser un ciclo
+        return False
+    perms = itertools.permutations(vertices)
+    for perm in perms:        # solo las inicia
+        if is_hamiltonians_cycle(graph, perm):  # si ya encontro el ciclo hamiltoniano
+            return perm
+    return False
